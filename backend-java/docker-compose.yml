@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # NE HealthNet Backend
+  ne-healthnet-backend:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_USERNAME=healthnet_user
+      - DB_PASSWORD=secure_password
+      - JWT_SECRET=your-super-secure-jwt-secret-key-here
+    depends_on:
+      - postgres
+    networks:
+      - healthnet-network
+    restart: unless-stopped
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=healthnet_prod
+      - POSTGRES_USER=healthnet_user
+      - POSTGRES_PASSWORD=secure_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - healthnet-network
+    restart: unless-stopped
+
+  # Redis (for caching and session management)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - healthnet-network
+    restart: unless-stopped
+
+  # Nginx (Reverse Proxy)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - ne-healthnet-backend
+    networks:
+      - healthnet-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  healthnet-network:
+    driver: bridge

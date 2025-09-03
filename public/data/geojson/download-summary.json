@@ -1,0 +1,31 @@
+{
+  "sourceUrls": {
+    "level1": "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_IND_1.json",
+    "level2": "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_IND_2.json",
+    "level3": "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_IND_3.json"
+  },
+  "localPaths": {
+    "full": {
+      "level1": "C:\\Users\\siddh\\OneDrive\\Desktop\\hackathon\\project-bolt-sb1-fwxntmth\\project\\public\\data\\geojson\\gadm_IND_level1.geojson",
+      "level2": "C:\\Users\\siddh\\OneDrive\\Desktop\\hackathon\\project-bolt-sb1-fwxntmth\\project\\public\\data\\geojson\\gadm_IND_level2.geojson",
+      "level3": "C:\\Users\\siddh\\OneDrive\\Desktop\\hackathon\\project-bolt-sb1-fwxntmth\\project\\public\\data\\geojson\\gadm_IND_level3.geojson"
+    },
+    "ne": {
+      "level1": "C:\\Users\\siddh\\OneDrive\\Desktop\\hackathon\\project-bolt-sb1-fwxntmth\\project\\public\\data\\geojson\\gadm_NE_level1.geojson",
+      "level2": "C:\\Users\\siddh\\OneDrive\\Desktop\\hackathon\\project-bolt-sb1-fwxntmth\\project\\public\\data\\geojson\\gadm_NE_level2.geojson",
+      "level3": "C:\\Users\\siddh\\OneDrive\\Desktop\\hackathon\\project-bolt-sb1-fwxntmth\\project\\public\\data\\geojson\\gadm_NE_level3.geojson"
+    }
+  },
+  "fileSizes": {
+    "gadm_IND_level1": "7.00 MB",
+    "gadm_NE_level1": "0.82 MB",
+    "gadm_IND_level2": "21.89 MB",
+    "gadm_NE_level2": "2.20 MB",
+    "gadm_IND_level3": "36.29 MB",
+    "gadm_NE_level3": "2.38 MB"
+  },
+  "commands": [
+    "npm run download-gadm",
+    "node scripts/download-gadm.js"
+  ]
+}

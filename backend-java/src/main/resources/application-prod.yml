@@ -1,0 +1,81 @@
+# Production Configuration for NE HealthNet Backend
+spring:
+  # Production Database Configuration (PostgreSQL)
+  datasource:
+    url: jdbc:postgresql://localhost:5432/healthnet_prod
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:healthnet_user}
+    password: ${DB_PASSWORD:secure_password}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  
+  # JPA Configuration for Production
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: false
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+  
+  # Disable H2 Console in production
+  h2:
+    console:
+      enabled: false
+
+# Server Configuration for Production
+server:
+  port: ${PORT:4000}
+  servlet:
+    context-path: /
+  error:
+    include-message: never
+    include-binding-errors: never
+
+# JWT Configuration for Production
+jwt:
+  secret: ${JWT_SECRET:your-super-secure-jwt-secret-key-here}
+  expiration: ${JWT_EXPIRATION:86400000} # 24 hours
+
+# Logging Configuration for Production
+logging:
+  level:
+    com.healthnet: INFO
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    root: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/healthnet-backend.log
+    max-size: 10MB
+    max-history: 30
+
+# Management/Actuator Configuration for Production
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# API Documentation Configuration for Production
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
