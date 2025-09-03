@@ -184,7 +184,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         userRole = 'admin';
         designation = foundUser.role === 'District Health Officer' ? 'District Health Officer' : 'Administrator';
         permissions = ['view_all_reports', 'manage_users', 'view_analytics', 'manage_alerts', 'view_predictions'];
-      } else if (['ASHA Workers', 'ANM', 'Nurses', 'Health Staff', 'Government Officials'].includes(foundUser.role)) {
+      } else if (['ASHA Workers', 'ANM', 'Nurses', 'Health Staff', 'Government Officials', 'Staff'].includes(foundUser.role)) {
         if (role !== 'staff') {
           console.log('Role mismatch: user is staff but selected role is', role);
           return false;
