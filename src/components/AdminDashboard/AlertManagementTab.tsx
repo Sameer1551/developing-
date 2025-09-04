@@ -18,6 +18,7 @@ import {
   Mail,
   ExternalLink
 } from 'lucide-react';
+import CreateAlertModal from './CreateAlertModal';
 
 interface Alert {
   id: string;
@@ -44,9 +45,10 @@ const AlertManagementTab: React.FC = () => {
   const [priorityFilter, setPriorityFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedAlerts, setSelectedAlerts] = useState<string[]>([]);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Mock data - replace with actual API calls
-  const alerts: Alert[] = [
+  const [alerts, setAlerts] = useState<Alert[]>([
     {
       id: '1',
       title: 'Water Contamination in Imphal East',
@@ -157,7 +159,7 @@ const AlertManagementTab: React.FC = () => {
       ],
       attachments: ['food_sample_001.jpg', 'medical_report.pdf']
     }
-  ];
+  ]);
 
   const filteredAlerts = alerts.filter(alert => {
     const matchesSearch = alert.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -184,6 +186,10 @@ const AlertManagementTab: React.FC = () => {
     } else {
       setSelectedAlerts(filteredAlerts.map(alert => alert.id));
     }
+  };
+
+  const handleCreateAlert = (newAlert: Alert) => {
+    setAlerts(prev => [newAlert, ...prev]);
   };
 
   const getPriorityColor = (priority: string) => {
@@ -225,7 +231,10 @@ const AlertManagementTab: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-900">Alert Management</h2>
           <p className="text-gray-600">Monitor and manage health alerts, emergencies, and incidents</p>
         </div>
-        <button className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+        <button 
+          onClick={() => setIsCreateModalOpen(true)}
+          className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Create Alert
         </button>
@@ -509,6 +518,13 @@ const AlertManagementTab: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Create Alert Modal */}
+      <CreateAlertModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onAlertCreated={handleCreateAlert}
+      />
     </div>
   );
 };
